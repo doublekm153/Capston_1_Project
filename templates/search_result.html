@@ -1,0 +1,177 @@
+<!--
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Keyword Search</title>
+    <script>
+        function previewVideo() {
+            const videoInput = document.getElementById("video");
+            const videoPreview = document.getElementById("videoPreview");
+
+            videoInput.addEventListener("change", function (e) {
+                const file = e.target.files[0];
+                if (file && file.type.startsWith('video/')) {
+                    const videoUrl = URL.createObjectURL(file);
+                    videoPreview.src = videoUrl;
+                    videoPreview.style.display = "block";
+                } else {
+                    videoPreview.style.display = "none";
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            previewVideo();
+        });
+    </script>
+</head>
+<body>
+    <h1>Video Keyword Search</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" id="video" name="video" accept="video/mp4">
+        <br>
+        <video id="videoPreview" width="320" height="240" controls style="display:none;"></video>
+        <br>
+        <input type="text" name="keyword" placeholder="키워드 검색">
+        <br>
+        <button type="submit">검색</button>
+    </form>
+    <h2>검색 결과</h2>
+    <ul>
+        {% for line in result %}
+        <li>{{ line }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+기존 키워드입력 -> 해당 문장 출력
+-->
+
+<!--
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Keyword Search</title>
+    <script>
+        function previewVideo() {
+            const videoInput = document.getElementById("video");
+            const videoPreview = document.getElementById("videoPreview");
+
+            videoInput.addEventListener("change", function (e) {
+                const file = e.target.files[0];
+                if (file && file.type.startsWith('video/')) {
+                    const videoUrl = URL.createObjectURL(file);
+                    videoPreview.src = videoUrl;
+                    videoPreview.style.display = "block";
+                } else {
+                    videoPreview.style.display = "none";
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            previewVideo();
+        });
+    </script>
+</head>
+<body>
+    <h1>Video Keyword Search</h1>
+    <form action="/process_video" method="post" enctype="multipart/form-data">
+        <input type="file" id="video" name="video" accept="video/mp4">
+        <br>
+        <video id="videoPreview" width="500" height="500" controls style="display:none;"></video>
+        <br>
+        <input type="text" name="keyword" placeholder="키워드 검색">
+        <br>
+        <button type="submit">검색</button>
+    </form>
+
+    <div>
+        <h2>검색 결과</h2>
+        {% if clips %}
+            {%for clip_path in clips %}
+                <video width="320" height="240" controls>
+                    <source src="{{ url_for('static', filename=clip_path) }}" type="video/mp4">
+                </video>
+            {% endfor %}
+        {% else %}
+            <p> 해당 키워드를 찾을 수 없습니다.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Keyword Search</title>
+    <script>
+        function previewVideo() {
+            const videoInput = document.getElementById("video");
+            const videoPreview = document.getElementById("videoPreview");
+
+            const file = videoInput.files[0];
+            if (file && file.type.startsWith('video/')) {
+                const videoUrl = URL.createObjectURL(file);
+                videoPreview.src = videoUrl;
+                videoPreview.style.display = "block";
+            } else {
+                videoPreview.style.display = "none";
+            }
+        }
+
+        function attachEvents() {
+            document.getElementById("video").addEventListener("change", previewVideo);
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            attachEvents();
+        });
+    </script>
+</head>
+<body>
+    <h1>Video Keyword Search</h1>
+    <form action="/process_video" method="post" enctype="multipart/form-data">
+        <input type="file" id="video" name="video" accept="video/mp4">
+        <br>
+        <video id="videoPreview" width="500" height="500" controls style="display:none;"></video>
+        <br>
+        <input type="text" name="keyword" placeholder="키워드 검색">
+        <br>
+        <button type="submit">검색</button>
+    </form>
+</body>
+</html>
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body>
+    <h1>Result</h1>
+    {% if clips %}
+        {% for clip in clips %}
+            <video src="{{ clip }}" width="500" height="500" controls></video>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+    <br>
+    <a href="/">Back to search</a>
+</body>
+</html>
